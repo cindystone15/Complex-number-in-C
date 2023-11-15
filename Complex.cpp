@@ -1,11 +1,9 @@
 #include "Complex.h"
 #include <cmath>
 
-//using namespace std;
+Complex::Complex() : re(0.0), im(0.0) {}
 
-Complex::Complex() : re(0.0), im(0.0){}
-
-Complex::Complex(double re, double im ) : re(re), im(im){}
+Complex::Complex(double re, double im) : re(re), im(im) {}
 
 Complex Complex::operator+(const Complex& z) const
 {
@@ -25,6 +23,14 @@ Complex Complex::operator*(const Complex& z) const
 Complex Complex::operator*(double r) const
 {
 	return Complex(re * r, im * r);
+}
+
+Complex Complex::operator/(const Complex& z) const
+{
+	double denom = z.re * z.re + z.im * z.im;
+	double newRe = (re * z.re + im * z.im) / denom;
+	double newIm = (im * z.re - re * z.im) / denom;
+	return Complex(newRe, newIm);
 }
 
 Complex Complex::operator+=(const Complex& z)
@@ -52,13 +58,16 @@ Complex Complex::operator*=(const Complex& z)
 
 Complex Complex::operator/=(const Complex& z)
 {
-	re /= z.re;
-	im /= z.re;
+	double denom = z.re * z.re + z.im * z.im;
+	double newRe = (re * z.re + im * z.im) / denom;
+	double newIm = (im * z.re - re * z.im) / denom;
+	re /= newRe;
+	im /= newIm;
 	return *this;
 }
 bool Complex::operator==(const Complex& z) const
 {
-	return re == z.re && im == z.im;
+	return (re == z.re && im == z.im);
 }
 
 bool Complex::operator!=(const Complex& z) const
@@ -75,11 +84,6 @@ double Complex::calcAmplitude() const
 {
 	return sqrt(re * re + im * im);
 }
-ostream& operator<<(ostream& out, const Complex& z)
-{
-	out << "(" << z.re << ", " << z.im << ")";
-	return out;
-}
 
 Complex operator*(double r, const Complex& z)
 {
@@ -93,4 +97,18 @@ Complex operator+(double r, const Complex& z)
 Complex operator-(double r, const Complex& z)
 {
 	return z - r;
+}
+
+bool operator!=(double r, const Complex& z)
+{
+	return z != r;
+}
+bool operator==(double r, const Complex& z)
+{
+	return z == r;
+}
+ostream& operator<<(ostream& out, const Complex& z)
+{
+	out << "(" << z.re << ", " << z.im << ")";
+	return out;
 }
