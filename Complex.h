@@ -16,6 +16,8 @@ struct Complex {
 
 	Complex operator*(const Complex& z) const;
 
+	Complex operator/(const Complex& z) const;
+
 	Complex operator*(double r) const;
 
 	Complex operator+=(const Complex& z);
@@ -38,3 +40,7 @@ ostream& operator<<(ostream& out, const Complex& z);
 Complex operator*(double r, const Complex& z);
 Complex operator+(double r, const Complex& z);
 Complex operator-(double r, const Complex& z);
+Complex operator/(double r, const Complex& z);
+
+bool operator!=(double r, const Complex& z);
+bool operator==(double r, const Complex& z);
